@@ -1,6 +1,12 @@
-body {
-	margin: auto auto;
+.App {
+	display: flex !important;
+	flex-direction: column;
+	justify-content: space-evenly;
+	margin-top: 10px !important;
 }
-FormControl {
-	width: 100px;
+.header {
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+	margin-bottom: 15px;
 }

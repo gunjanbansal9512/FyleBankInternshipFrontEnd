@@ -1,53 +1,42 @@
-import { React, useState } from "react";
-import { Dropdown, InputGroup, FormControl, Table } from "react-bootstrap";
+import React, { useState } from "react";
+import { Table } from "react-bootstrap";
+import Fav from "./Fav";
 
 function Main(props) {
 	const { data } = props;
-
 	const { pagination } = props;
-
+	const { term } = props;
 	return (
 		<div>
-			<Dropdown>
-				<Dropdown.Toggle variant="success" id="dropdown-basic">
-					Select City
-				</Dropdown.Toggle>
-
-				<Dropdown.Menu>
-					<Dropdown.Item href="#/action-1">Bangalore</Dropdown.Item>
-					<Dropdown.Item href="#/action-2">Chennai</Dropdown.Item>
-					<Dropdown.Item href="#/action-3">Mumbai</Dropdown.Item>
-					<Dropdown.Item href="#/action-4">Pune</Dropdown.Item>
-					<Dropdown.Item href="#/action-5">Hyderabad</Dropdown.Item>
-				</Dropdown.Menu>
-			</Dropdown>
-			<InputGroup>
-				<FormControl
-					placeholder="Search"
-					aria-label="Search"
-					aria-describedby="basic-addon2"
-				/>
-			</InputGroup>
 			<Table striped bordered hover>
 				<thead>
 					<tr>
 						<th>#</th>
 						<th>Bank Name</th>
-						<th>Branch Name</th>
+						<th>IFSC</th>
 						<th>City</th>
+						<th>Mark as favourite</th>
 					</tr>
 				</thead>
 
-				{data.slice(pagination.start, pagination.end).map((bank) => {
-					return (
-						<tbody block key={bank.id}>
-							<tr>
-								<td>{bank.id}</td>
-								<td>{bank.name}</td>
-							</tr>
-						</tbody>
-					);
-				})}
+				{data
+					.filter((data) => data.name.includes(term.toUpperCase()))
+					.slice(pagination.start, pagination.end)
+					.map((bank, index) => {
+						return (
+							<tbody key={bank.ifsc}>
+								<tr>
+									<td>{index + 1}</td>
+									<td>{bank.name}</td>
+									<td>{bank.ifsc}</td>
+									<td>{bank.city}</td>
+									<td>
+										<Fav ifsc={bank.ifsc} />
+									</td>
+								</tr>
+							</tbody>
+						);
+					})}
 			</Table>
 		</div>
 	);

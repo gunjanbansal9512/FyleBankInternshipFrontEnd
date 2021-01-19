@@ -5,11 +5,17 @@ function Pagination({ showPerPage, onPaginationChange, total }) {
 	const [numberOfButtons, setNumberOfButtons] = useState(
 		Math.ceil(total / showPerPage)
 	);
+	console.log(showPerPage);
 	useEffect(() => {
 		const value = showPerPage * counter;
 
 		onPaginationChange(value - showPerPage, value);
 	}, [counter]);
+	useEffect(() => {
+		const value = showPerPage * counter;
+
+		onPaginationChange(value - showPerPage, value);
+	}, [showPerPage]);
 	const onButtonClick = (type) => {
 		if (type === "prev") {
 			if (counter === 1) {
@@ -26,41 +32,13 @@ function Pagination({ showPerPage, onPaginationChange, total }) {
 		}
 	};
 	return (
-		<div className="d-flex justify-content-center">
-			<nav aria-label="Page navigation example">
-				<ul className="pagination">
-					<li className="page-item">
-						<span
-							className="page-link"
-							aria-label="Previous"
-							onClick={() => onButtonClick("prev")}
-						>
-							<span aria-hidden="true">&laquo;</span>
-							<span className="sr-only">Previous</span>
-						</span>
-					</li>
-					{new Array(numberOfButtons).fill("").map((el, index) => (
-						<li
-							className={`page-item ${index + 1 === counter ? "active" : null}`}
-						>
-							<span className="page-link" onClick={() => setCounter(index + 1)}>
-								{index + 1}
-							</span>
-						</li>
-					))}
-					;
-					<li className="page-item">
-						<span
-							className="page-link"
-							aria-label="Next"
-							onClick={() => onButtonClick("next")}
-						>
-							<span aria-hidden="true">&raquo;</span>
-							<span className="sr-only">Next</span>
-						</span>
-					</li>
-				</ul>
-			</nav>
+		<div className="d-flex justify-content-between">
+			<button className="btn  btn-dark" onClick={() => onButtonClick("prev")}>
+				Prev
+			</button>
+			<button className="btn  btn-dark" onClick={() => onButtonClick("next")}>
+				Next
+			</button>
 		</div>
 	);
 }
