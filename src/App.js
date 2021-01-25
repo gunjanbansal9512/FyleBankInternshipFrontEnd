@@ -11,12 +11,10 @@ function App() {
 		loading: false,
 		data: [],
 	});
-	const [storedData, setStoreData] = useState(
-		localStorage.getItem("data") || ""
-	);
+
 	const [dropDown, changeDropDown] = useState("MUMBAI");
 	const [apiUrl, setUrl] = useState(
-		"http://127.0.0.1:5000/api/branches?q=MUMBAI&limit=100&offset=0"
+		"https://fyle-bank-app-gunjan-backend.herokuapp.com/api/branches?q=MUMBAI&limit=100&offset=0"
 	);
 	const [showPerPage, setShowPerPage] = useState(10);
 	const [pagination, setPagination] = useState({
@@ -25,22 +23,13 @@ function App() {
 	});
 	const [limit, changeLimit] = useState(10);
 	const fetchData = () => {
-		if (localStorage.getItem("data") !== "") {
-			setAppState({ loading: false, data: localStorage.getItem("data") });
-		} else {
-			setAppState({ loading: true });
-			fetch(apiUrl)
-				.then((res) => res.json())
-				.then((data) => {
-					setStoreData(data);
-					setAppState({ loading: false, data: data });
-				});
-		}
+		setAppState({ loading: true });
+		fetch(apiUrl)
+			.then((res) => res.json())
+			.then((data) => {
+				setAppState({ loading: false, data: data });
+			});
 	};
-	useEffect(() => {
-		localStorage.setItem("data", appState.data);
-	}, [storedData]);
-
 	const [term, setTerm] = useState("");
 	const onDropDownChange = (value) => {
 		if (value !== dropDown) {
@@ -56,7 +45,7 @@ function App() {
 	console.log(showPerPage);
 	useEffect(() => {
 		setUrl(
-			"http://127.0.0.1:5000/api/branches?q=" +
+			"https://fyle-bank-app-gunjan-backend.herokuapp.com/api/branches?q=" +
 				dropDown +
 				"&limit=" +
 				"100000" +
